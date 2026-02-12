@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Rendimiento OPN</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main>
+    <header class="hero">
+      <div class="pill">Performance</div>
+      <div class="pill">Runtime</div>
+      <h1>Rendimiento OPN</h1>
+      <p>Optimizado para ejecucion rapida y repetible.</p>
+      <nav class="top">
+        <a href="index.html">Inicio</a>
+        <a href="quickstart.html">Inicio rapido</a>
+        <a href="syntax.html">Sintaxis</a>
+        <a href="ia-form.html">Formulario IA</a>
+      </nav>
+    </header>
+
+    <section>
+      <h2>Mejoras implementadas</h2>
+      <ul>
+        <li>Cache LRU para transpilar de OPN a Python.</li>
+        <li>Cache LRU para bytecode compilado en runtime.</li>
+        <li>Hash <code>blake2b</code> para claves de cache estables.</li>
+        <li>Micro-optimizaciones en el lexer.</li>
+        <li>Optimiza <code>for</code> clasico a <code>range(...)</code> en Python.</li>
+      </ul>
+    </section>
+
+    <section class="callout">
+      <h2>Buenas practicas</h2>
+      <ul>
+        <li>Reutiliza una sola instancia de `OPNInterpreter`.</li>
+        <li>Evita recompilar archivos sin cambios en procesos separados.</li>
+        <li>Cuando aplique, compila a `.py` y ejecuta Python directo.</li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>

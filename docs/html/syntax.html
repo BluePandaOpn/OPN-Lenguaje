@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sintaxis OPN</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main>
+    <header class="hero">
+      <div class="pill">Referencia</div>
+      <div class="pill">Sintaxis</div>
+      <h1>Sintaxis OPN</h1>
+      <p>Resumen de las construcciones esenciales del lenguaje.</p>
+      <nav class="top">
+        <a href="index.html">Inicio</a>
+        <a href="quickstart.html">Inicio rapido</a>
+        <a href="performance.html">Rendimiento</a>
+        <a href="ia-form.html">Formulario IA</a>
+      </nav>
+    </header>
+
+    <section>
+      <h2>Variables y funciones</h2>
+      <pre>var nombre = "OPN";
+function suma(a, b) {
+    return a + b;
+}</pre>
+      <p>Alias corto: <code>func</code> tambien sirve para declarar funciones.</p>
+      <pre>func suma(a, b) {
+    return a + b;
+}</pre>
+    </section>
+
+    <section>
+      <h2>Condicionales y bucles</h2>
+      <pre>if (x > 10) { print("alto"); } else { print("bajo"); }
+for (var i = 0; i &lt; 3; i = i + 1) { print(i); }</pre>
+    </section>
+
+    <section class="callout">
+      <h2>Clases</h2>
+      <pre>class Persona {
+    function init(nombre) { this.nombre = nombre; }
+    function saludar() { print("Hola " + this.nombre); }
+}</pre>
+    </section>
+  </main>
+</body>
+</html>
