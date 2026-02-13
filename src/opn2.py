@@ -1144,6 +1144,56 @@ def register_dependency(requirement: str, path: str = DEFAULT_PROJECT_FILE) -> N
     save_opn_project(config, path)
 
 
+def sync_project_dependencies(
+    project_file: str = DEFAULT_PROJECT_FILE, *, upgrade: bool = False
+) -> int:
+    config = load_opn_project(project_file)
+    dependencies = [dep for dep in config.get("dependencies", []) if isinstance(dep, str) and dep]
+    if not dependencies:
+        print(f"No hay dependencias declaradas en {project_file}.")
+        return 0
+
+    python_bin = ensure_project_venv()
+    ensure_pip_in_venv(python_bin)
+
+    cmd = [python_bin, "-m", "pip", "install"]
+    if upgrade:
+        cmd.append("--upgrade")
+    cmd.extend(dependencies)
+    print(f"Sincronizando {len(dependencies)} dependencias desde {project_file}...")
+    result = subprocess.run(cmd, capture_output=True, text=True)
+    if result.returncode != 0:
+        detail = result.stderr.strip() or result.stdout.strip()
+        if detail:
+            detail = detail.splitlines()[-1]
+        raise OPNError(
+            "No se pudieron sincronizar dependencias del proyecto",
+            code="OPN4013",
+            phase="CLI",
+            details=detail if detail else None,
+            hint="Revisa opn.json o ejecuta manualmente: opn -m pip install <paquete>",
+        )
+    for dep in dependencies:
+        register_dependency(dep, path=project_file)
+    print("Dependencias sincronizadas correctamente.")
+    return len(dependencies)
+
+
+def remove_project_dependencies(
+    packages: list[str], project_file: str = DEFAULT_PROJECT_FILE
+) -> int:
+    normalized = {_normalize_package_name(pkg) for pkg in packages if _normalize_package_name(pkg)}
+    if not normalized:
+        return 0
+    config = load_opn_project(project_file)
+    current = [dep for dep in config.get("dependencies", []) if isinstance(dep, str)]
+    kept = [dep for dep in current if _normalize_package_name(dep) not in normalized]
+    removed = len(current) - len(kept)
+    config["dependencies"] = kept
+    save_opn_project(config, project_file)
+    return removed
+
+
 def ensure_project_venv(venv_dir: str = DEFAULT_VENV_DIR) -> str:
     python_bin = _venv_python_path(venv_dir)
     if os.path.exists(python_bin):
@@ -1442,7 +1492,11 @@ def main(argv: list[str]) -> int:
     parser.add_argument(
         "args",
         nargs="+",
-        help="Uso: opn2.py archivo.opn | opn2.py run archivo.opn | opn2.py compile in.opn -o out.py | opn2.py build app.opn -o dist/app",
+        help=(
+            "Uso: opn2.py archivo.opn | opn2.py run archivo.opn | "
+            "opn2.py compile in.opn -o out.py | opn2.py build app.opn -o dist/app | "
+            "opn2.py setup | opn2.py deps sync"
+        ),
     )
     parser.add_argument("-o", "--output", help="Ruta de salida para compile/build")
     ns = parser.parse_args(argv)
@@ -1536,11 +1590,67 @@ def main(argv: list[str]) -> int:
         print(f"Binario generado: {out}")
         return 0
 
+    if cmd == "setup":
+        ensure_project_venv()
+        synced = sync_project_dependencies()
+        print(f"Setup completo. Dependencias sincronizadas: {synced}")
+        return 0
+
+    if cmd == "deps":
+        subcmd = ns.args[1] if len(ns.args) >= 2 else "sync"
+        if subcmd == "sync":
+            upgrade = "--upgrade" in ns.args[2:]
+            synced = sync_project_dependencies(upgrade=upgrade)
+            print(f"Dependencias instaladas/actualizadas: {synced}")
+            return 0
+        if subcmd == "show":
+            config = load_opn_project()
+            deps = config.get("dependencies", [])
+            if not deps:
+                print("No hay dependencias registradas en opn.json.")
+                return 0
+            print("Dependencias registradas en opn.json:")
+            for dep in deps:
+                print(f"- {dep}")
+            return 0
+        if subcmd == "add":
+            packages = [token for token in ns.args[2:] if not token.startswith("-")]
+            if not packages:
+                raise OPNError(
+                    "Falta al menos un paquete para deps add",
+                    code="OPN4014",
+                    phase="CLI",
+                    hint="Uso: opn deps add requests pygame",
+                )
+            result = run_module_in_venv(["pip", "install", *packages])
+            if result != 0:
+                return result
+            print(f"Paquetes agregados: {', '.join(packages)}")
+            return 0
+        if subcmd == "remove":
+            packages = [token for token in ns.args[2:] if not token.startswith("-")]
+            if not packages:
+                raise OPNError(
+                    "Falta al menos un paquete para deps remove",
+                    code="OPN4015",
+                    phase="CLI",
+                    hint="Uso: opn deps remove requests pygame",
+                )
+            removed = remove_project_dependencies(packages)
+            print(f"Dependencias removidas de opn.json: {removed}")
+            return 0
+        raise OPNError(
+            f"Subcomando deps no soportado: {subcmd}",
+            code="OPN4016",
+            phase="CLI",
+            hint="Subcomandos deps: sync, show, add, remove",
+        )
+
     raise OPNError(
         f"Comando no soportado: {cmd}",
         code="OPN4004",
         phase="CLI",
-        hint="Comandos validos: run, compile, build o -m",
+        hint="Comandos validos: run, compile, build, setup, deps o -m",
     )
 
 

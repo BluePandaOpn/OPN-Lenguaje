@@ -1,0 +1,6 @@
+﻿function make_user(name, level) {
+    return {"name": name, "level": level};
+}
+var u = make_user("Noa", 3);
+print(u["name"]);
+print(u["level"]);

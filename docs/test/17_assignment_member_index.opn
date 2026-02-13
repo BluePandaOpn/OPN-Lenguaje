@@ -1,0 +1,8 @@
+﻿class Box {
+    function init() {
+        this.items = [1, 2, 3];
+    }
+}
+var box = Box();
+box.items[0] = 7;
+print(box.items[0]);

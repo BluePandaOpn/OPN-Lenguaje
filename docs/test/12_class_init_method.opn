@@ -1,0 +1,10 @@
+﻿class Person {
+    function init(name) {
+        this.name = name;
+    }
+    function greet() {
+        return "Hi " + this.name;
+    }
+}
+var p = Person("Kai");
+print(p.greet());

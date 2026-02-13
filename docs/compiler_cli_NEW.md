@@ -10,6 +10,8 @@ ES (optional): Referencia de comandos para desarrollo y distribucion.
 - Run file: `opn app.opn`
 - Explicit run: `opn run app.opn`
 - Compile to Python: `opn compile app.opn -o app.py`
+- Setup current project env: `opn setup`
+- Dependency management: `opn deps show | opn deps sync | opn deps add <pkg> | opn deps remove <pkg>`
 - Run Python module in project venv: `opn -m pip install requests`
 - Build portable binary: `opn build app.opn -o dist/app`
 
@@ -25,6 +27,15 @@ python app.py
 opn -m pip --version
 opn -m pip install pygame
 opn -m pip list
+```
+
+## Project setup and dependency sync
+```bash
+opn setup
+opn deps show
+opn deps sync
+opn deps add requests
+opn deps remove requests
 ```
 
 ## Portable build
@@ -53,6 +64,10 @@ Output:
 - `OPN4009`: missing file for build command
 - `OPN4010`: build generation failed
 - `OPN4011`: failed to install PyInstaller
+- `OPN4013`: dependency sync failed
+- `OPN4014`: missing package in `deps add`
+- `OPN4015`: missing package in `deps remove`
+- `OPN4016`: unsupported `deps` subcommand
 
 ## Project metadata file
 ```json
@@ -67,3 +82,6 @@ Output:
 - Quickstart: `docs/quickstart.md`
 - Syntax: `docs/syntax.md`
 - Performance: `docs/performance.md`
+- Rules: `docs/language_rules.md`
+- Recommendations: `docs/recommendations.md`
+- Test corpus: `docs/test/README.md`

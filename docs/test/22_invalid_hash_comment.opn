@@ -1,0 +1,3 @@
+﻿# INVALID TEST: '#' comments are not supported
+var x = 1;
+print(x);

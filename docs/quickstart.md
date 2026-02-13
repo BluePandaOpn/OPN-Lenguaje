@@ -39,6 +39,14 @@ opn -m pip install pygame
 
 If a module is missing during execution, OPN can auto-install it and update `opn.json`.
 
+Optional project bootstrap:
+
+```bash
+opn setup
+opn deps show
+opn deps sync
+```
+
 ## 4. Build a portable binary
 
 ```bash
@@ -54,3 +62,5 @@ Output:
 - CLI details: `docs/compiler_cli.md`
 - Performance checklist: `docs/performance.md`
 - AI workflow template: `docs/ia_formulario.md`
+- Clarity rules: `docs/language_rules.md`
+- Test corpus: `docs/test/README.md`

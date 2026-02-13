@@ -1,0 +1,10 @@
+﻿var username = "ana";
+var age = 26;
+var height = 1.68;
+var active = true;
+var nothing = null;
+print(username);
+print(age);
+print(height);
+print(active);
+print(nothing);

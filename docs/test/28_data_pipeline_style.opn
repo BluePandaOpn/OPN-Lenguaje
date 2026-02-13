@@ -1,0 +1,8 @@
+﻿var prices = [12, 7, 20, 5];
+var total = 0;
+for (var i = 0; i < 4; i = i + 1) {
+    total = total + prices[i];
+}
+var average = total / 4;
+print(total);
+print(average);

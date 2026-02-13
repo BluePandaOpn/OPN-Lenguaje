@@ -21,6 +21,9 @@ ES (optional): OPN BluePanda es un lenguaje sobre Python, con sintaxis simple y 
 opn app.opn
 opn run app.opn
 opn compile app.opn -o app.py
+opn setup
+opn deps show
+opn deps sync
 opn -m pip install requests
 opn build app.opn -o dist/app
 ```
@@ -31,6 +34,17 @@ opn build app.opn -o dist/app
 - CLI and Build: `docs/compiler_cli.md`
 - Performance: `docs/performance.md`
 - AI Prompt Template: `docs/ia_formulario.md`
+- Language Rules: `docs/language_rules.md`
+- Recommendations: `docs/recommendations.md`
+- Test Corpus (30 files): `docs/test/README.md`
+
+## Windows installer (.bat)
+If you install from `bin/install_opn.bat`, it now performs:
+1. Global `opn.exe` installation in `%USERPROFILE%\\.opn\\bin`
+2. PATH setup for the `opn` command
+3. Global OPN helper venv creation in `%USERPROFILE%\\.opn\\.venv`
+4. Pip toolchain update (`pip`, `setuptools`, `wheel`)
+5. Optional helper dependency install from `bin/requirements_opn.txt`
 
 ## Typical workflow
 1. Create `app.opn`.

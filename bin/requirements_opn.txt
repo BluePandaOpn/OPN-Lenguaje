@@ -1,0 +1,3 @@
+# Global helper dependencies for OPN BluePanda installation.
+# Project-specific packages should still be installed per-project in .venv.
+pyinstaller>=6.0

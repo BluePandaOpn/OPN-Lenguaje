@@ -1,0 +1,6 @@
+﻿var data = null;
+if (data == null) {
+    print("empty");
+} else {
+    print("filled");
+}

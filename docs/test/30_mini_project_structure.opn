@@ -1,0 +1,22 @@
+﻿class Task {
+    function init(title) {
+        this.title = title;
+        this.done = false;
+    }
+    function complete() {
+        this.done = true;
+    }
+}
+
+function print_task(task) {
+    if (task.done) {
+        print(task.title + " [done]");
+    } else {
+        print(task.title + " [open]");
+    }
+}
+
+var t = Task("Learn OPN");
+print_task(t);
+t.complete();
+print_task(t);

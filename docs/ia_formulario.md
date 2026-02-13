@@ -20,6 +20,8 @@ Repository facts (must respect):
   - opn app.opn
   - opn run app.opn
   - opn compile app.opn -o app.py
+  - opn setup
+  - opn deps show / opn deps sync / opn deps add / opn deps remove
   - opn -m pip install <package>
   - opn build app.opn -o dist/app
 
@@ -61,6 +63,9 @@ Reference order (read before answering):
 4. docs/compiler_cli.md
 5. docs/performance.md
 6. docs/ia_formulario.md
+7. docs/language_rules.md
+8. docs/recommendations.md
+9. docs/test/README.md
 
 If context is missing, ask at most 3 direct questions.
 ```

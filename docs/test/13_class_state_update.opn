@@ -1,0 +1,12 @@
+﻿class Counter {
+    function init() {
+        this.value = 0;
+    }
+    function inc() {
+        this.value = this.value + 1;
+        return this.value;
+    }
+}
+var c = Counter();
+print(c.inc());
+print(c.inc());

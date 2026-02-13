@@ -1,0 +1,5 @@
+﻿// INVALID TEST: do...while is not supported
+var i = 0;
+do {
+    i = i + 1;
+} while (i < 3);

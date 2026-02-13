@@ -1,0 +1,4 @@
+﻿var first = "Blue";
+var second = "Panda";
+var full = first + " " + second;
+print(full);
